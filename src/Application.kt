@@ -8,6 +8,7 @@ import io.ktor.auth.*
 import io.ktor.auth.jwt.*
 import io.ktor.gson.*
 import io.ktor.features.*
+import io.ktor.response.*
 import romilp.auth.JwtService
 import romilp.auth.MySession
 import romilp.repository.DatabaseFactory
@@ -58,6 +59,9 @@ fun Application.module(testing: Boolean = false) {
     }
 
     routing {
+        get("/"){
+            call.respondText("Hello world")
+        }
         userRoute(userDb, todoDb, jwt, hash)
         todoRoute(userDb,todoDb)
     }
