@@ -9,15 +9,23 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.cloud.tools:appengine-gradle-plugin:$appengine_plugin_version"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:6.0.0'
     }
 }
 
 apply plugin: 'kotlin'
 apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 group 'romilp'
 version '0.0.1'
 mainClassName = "io.ktor.server.netty.EngineMain"
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
 
 sourceSets {
     main.kotlin.srcDirs = main.java.srcDirs = ['src']
@@ -51,4 +59,8 @@ dependencies {
     implementation "com.zaxxer:HikariCP:$hikaricp_version"
 
     implementation "com.google.appengine:appengine:$appengine_version"
+}
+
+tasks.create("stage") {
+    dependsOn("installDist")
 }

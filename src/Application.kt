@@ -11,7 +11,10 @@ import io.ktor.features.*
 import romilp.auth.JwtService
 import romilp.auth.MySession
 import romilp.repository.DatabaseFactory
+import romilp.repository.TodoRepository
 import romilp.repository.UserRepository
+import romilp.routes.todoRoute
+import romilp.routes.userRoute
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -21,8 +24,10 @@ fun Application.module(testing: Boolean = false) {
 
     DatabaseFactory.init()
 
+    val todoDb = TodoRepository()
     val userDb = UserRepository()
     val jwt = JwtService()
+    val hash = { s: String -> s }
 
     install(Locations) {
     }
@@ -53,6 +58,8 @@ fun Application.module(testing: Boolean = false) {
     }
 
     routing {
+        userRoute(userDb, todoDb, jwt, hash)
+        todoRoute(userDb,todoDb)
     }
 }
 
