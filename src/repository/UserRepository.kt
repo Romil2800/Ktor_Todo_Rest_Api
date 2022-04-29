@@ -40,9 +40,18 @@ class UserRepository : UserDao {
     }
 
 
-    override suspend fun updateUser(userId: Int, name: String, email: String, password: String): Int =
+    override suspend fun updateAllData(id: Int, name: String, email: String, password: String): Int =
         DatabaseFactory.dbQuery {
-            UserTable.update({ UserTable.userId.eq(userId) }) { user ->
+            UserTable.update({ UserTable.userId.eq(id) }) { user ->
+                user[UserTable.name] = name
+                user[UserTable.email] = email
+                user[UserTable.password] = password
+            }
+        }
+
+    override suspend fun updateAnyData(id: Int, name: String, email: String, password: String): Int =
+        DatabaseFactory.dbQuery {
+            UserTable.update({ UserTable.userId.eq(id) }) { user ->
                 user[UserTable.name] = name
                 user[UserTable.email] = email
                 user[UserTable.password] = password

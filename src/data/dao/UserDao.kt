@@ -23,11 +23,18 @@ interface UserDao {
         userId: Int
     ): Int
 
-    suspend fun updateUser(
-        userId: Int,
+    suspend fun updateAllData(
+        id:Int,
+        name:String,
+        email: String,
+        password: String
+    ):Int?
+
+    suspend fun updateAnyData(
+        id: Int,
         name: String,
         email: String,
         password: String
-    ):Int
+    ):Int?
 
 }

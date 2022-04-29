@@ -68,3 +68,4 @@ fun Application.module(testing: Boolean = false) {
 }
 
 
+const val API_VERSION = "/v1"
